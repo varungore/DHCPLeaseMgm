@@ -15,17 +15,22 @@ using namespace std;
 
 int main() {
 
-	string line, token;
-
+	string line, token, ip, lease_time;
+	int time = 0;
 	ifstream myfile("input.txt");
 	if (myfile.is_open()) {
 		while (getline(myfile, line)) {
 			cout << line << '\n';
 			istringstream strm(line);
-			strm >> token;
+
 			cout << token << endl;
 			if(line[0] == 'P'){
 				//sleep
+			}else{
+				strm >> ip;
+				strm >> lease_time;
+				time = stoi(lease_time);
+				cout << time;
 			}
 
 		}
