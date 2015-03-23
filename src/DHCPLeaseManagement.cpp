@@ -12,6 +12,7 @@
 #include <string>
 #include <sstream>
 #include <unistd.h>
+
 using namespace std;
 
 void read_input_ips();
@@ -29,6 +30,7 @@ ip_entry *head;
 
 int main() {
 	read_input_ips();
+	cout<<"\n\n\n";
 	print_ll();
 	//sleep(1);
 	remove_inactive_ips();
@@ -47,13 +49,20 @@ void remove_inactive_ips(){
 	ip_entry *current_node = head;
 	time_t now = time(0);
 	while(1){
-		cout << "in while";
+
+
+		//cout << "in while";
+		cout<< "asf" << now<<endl;
 		while(current_node != NULL){
+		time_t now = time(0);
+		//cout<<"while remove\n";
 			if(current_node->expiration_time <= now){
-				cout << "Deleting head\n";
+				cout << "Deleting head:";
+				cout<<current_node->ip<<endl;
 				head = current_node->next;
-				delete current_node;
+				//delete current_node;
 				current_node = head;
+
 			}
 		}
 	}
@@ -65,7 +74,7 @@ void read_input_ips() {
 	int t1 = 0;
 	time_t now = time(0);
 
-	ifstream myfile("input.txt");
+	ifstream myfile("ager_input.txt");
 
 	if (myfile.is_open()) {
 		while (getline(myfile, line)) {
@@ -89,7 +98,8 @@ void read_input_ips() {
 				t1 = stoi(lease_time);
 				ip_entry *e1 = new ip_entry();
 				e1->ip = ip;
-				e1->expiration_time = t1 + now;
+				e1->expiration_time = (t1/1000) + now;
+				e1->next = NULL;
 				if (head == NULL)
 					head = e1;
 				else {
