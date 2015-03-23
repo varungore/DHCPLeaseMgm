@@ -65,6 +65,7 @@ void *remove_inactive_ips(void* ptr) {
 		time_t now = time(0);
 		while (current_node != NULL && current_node->expiration_time <= now) {
 			cout << "\nDeleting head:";
+			ip_map[current_node->ip] = 0;
 			cout << current_node->ip << endl;
 			head = current_node->next;
 			current_node = head;
@@ -120,6 +121,7 @@ void *read_input_ips(void*) {
 						while (next_node != NULL ) {
 							if(next_node->ip == ip){
 								current_node->next = next_node->next;
+								ip_map[next_node->ip] = 0;
 								delete next_node;
 								next_node = current_node->next;
 							}
@@ -132,6 +134,7 @@ void *read_input_ips(void*) {
 						current_node = next_node;
 						next_node = next_node->next;
 					}
+					ip_map[e1->ip] = 1;
 					e1->next = next_node;
 					if (next_node == head) {
 						head = e1;
