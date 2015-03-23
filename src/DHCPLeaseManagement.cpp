@@ -1,9 +1,6 @@
 //============================================================================
 // Name        : DHCPLeaseManagement.cpp
-// Author      : 
-// Version     :
-// Copyright   : Your copyright notice
-// Description : Hello World in C++, Ansi-style
+// Description : DHCPLeaseManagement C++, Ansi-style
 //============================================================================
 
 #include <iostream>
@@ -99,6 +96,7 @@ void *read_input_ips(void*) {
 				thread_mutex.unlock();
 				sleep(t1);
 			} else {
+				thread_mutex.lock();//locked here to have clear couts
 				strm >> ip;
 				cout << now << " " << ip << endl;
 				strm >> lease_time;
@@ -107,8 +105,6 @@ void *read_input_ips(void*) {
 				e1->ip = ip;
 				e1->expiration_time = (t1 / 1000) + now;
 				e1->next = NULL;
-
-				thread_mutex.lock();
 
 				if (head == NULL) {
 					head = e1;
@@ -124,6 +120,7 @@ void *read_input_ips(void*) {
 								current_node = next_node;
 								next_node = next_node->next;
 						}
+						cout << "\nUpdating lease for: " << ip;
 						if(next_node == head){
 							head = head->next;
 							delete next_node;
