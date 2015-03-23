@@ -115,16 +115,23 @@ void *read_input_ips(void*) {
 					ip_map[ip] = 1;
 				} else {
 					ip_entry *next_node, *current_node;
+
 					next_node = head;
+
 					if (ip_map[ip] == 1) {
 						//delete existing entry
-						while (next_node != NULL ) {
-							if(next_node->ip == ip){
-								current_node->next = next_node->next;
-								ip_map[next_node->ip] = 0;
-								delete next_node;
-								next_node = current_node->next;
-							}
+						while (next_node != NULL && next_node->ip != ip){//never should next_node be NULL
+								current_node = next_node;
+								next_node = next_node->next;
+						}
+						if(next_node == head){
+							head = head->next;
+							delete next_node;
+						}else{
+							current_node->next = next_node->next;
+							ip_map[next_node->ip] = 0;
+							delete next_node;
+							next_node = current_node->next;
 						}
 					}
 					//add ip with new lease time// Redundant can be optimized
